@@ -1,62 +1,86 @@
-// Copyright 2018 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
+import 'package:montadoras_game/questionario.dart';
+import 'package:montadoras_game/resultado.dart';
 
-void main() => runApp(MyApp());
+main() => runApp(PerguntaApp());
 
-class MyApp extends StatelessWidget {
+class _PerguntaAppState extends State<PerguntaApp> {
+  var _perguntaSelecionada = 0;
+  var _totalAcertos = 0;
+
+  void _responder(int acerto) {
+    setState(() {
+      _perguntaSelecionada++;
+      _totalAcertos += acerto;
+    });
+  }
+
+  final _perguntas = const [
+    {
+      'texto': 'Qual é a sua cor favorita?',
+      'respostas': [
+        {'texto': 'Preto', 'ehCerto': false},
+        {'texto': 'Branco', 'ehCerto': false},
+        {'texto': 'Cinza', 'ehCerto': true},
+        {'texto': 'Azul', 'ehCerto': false}
+      ],
+    },
+    {
+      'texto': 'Qual o seu animal favorito?',
+      'respostas': [
+        {'texto': 'Preto', 'ehCerto': false},
+        {'texto': 'Jiboia', 'ehCerto': false},
+        {'texto': 'Macaco', 'ehCerto': true},
+        {'texto': 'Azul', 'ehCerto': false}
+      ]
+    },
+    {
+      'texto': 'Qual o seu melhor amigo?',
+      'respostas': [
+        {'texto': 't', 'ehCerto': false},
+        {'texto': 'a', 'ehCerto': false},
+        {'texto': 'Cinza', 'ehCerto': true},
+        {'texto': 'Azul', 'ehCerto': false}
+      ]
+    }
+  ];
+
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _totalAcertos = 0;
+    });
+  }
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
+  }
+
+  String get _porcentagemAcerto {
+    double porcentagem = (_totalAcertos / _perguntas.length) * 100;
+    return porcentagem.toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
     return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: RandomWords(),
-    );
-  }
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() => RandomWordsState();
-}
-
-class RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+        home: Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text('Montadoras Quiz'),
       ),
-      body: _buildSuggestions(),
-    );
+      body: temPerguntaSelecionada
+          ? Questionario(
+              perguntas: _perguntas,
+              perguntaSelecionada: _perguntaSelecionada,
+              responder: _responder)
+          : Resultado(_porcentagemAcerto, _reiniciarQuestionario),
+    ));
   }
+}
 
-  Widget _buildRow(WordPair pair) {
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
-
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-          }
-          return _buildRow(_suggestions[index]);
-        });
+class PerguntaApp extends StatefulWidget {
+  @override
+  _PerguntaAppState createState() {
+    return _PerguntaAppState();
   }
 }
