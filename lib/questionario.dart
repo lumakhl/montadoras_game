@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:montadoras_game/questao.dart';
 import 'package:montadoras_game/resposta.dart';
+import 'package:montadoras_game/respostas.dart';
 
 class Questionario extends StatelessWidget {
   final List<Map<String, Object>> perguntas;
@@ -23,13 +24,18 @@ class Questionario extends StatelessWidget {
         : null;
 
     return Container(
+      margin: const EdgeInsets.all(4),
       child: Column(
         children: <Widget>[
           Questao(perguntas[perguntaSelecionada]['texto']),
-          ...respostas
-              .map((resp) => Resposta(
-                  resp['texto'], () => responder(resp['ehCerto'] ? 1 : 0)))
-              .toList()
+          Expanded(
+              child: SizedBox(
+            child: Respostas(respostas, responder),
+          )),
+          Text(
+            '${perguntaSelecionada + 1}/${perguntas.length}',
+            style: TextStyle(fontSize: 20)
+          )
         ],
       ),
     );

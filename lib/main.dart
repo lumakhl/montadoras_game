@@ -64,17 +64,22 @@ class _PerguntaAppState extends State<PerguntaApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          accentColor: Colors.blueAccent,
+          fontFamily: 'Lato',
+        ),
         home: Scaffold(
-      appBar: AppBar(
-        title: Text('Montadoras Quiz'),
-      ),
-      body: temPerguntaSelecionada
-          ? Questionario(
-              perguntas: _perguntas,
-              perguntaSelecionada: _perguntaSelecionada,
-              responder: _responder)
-          : Resultado(_porcentagemAcerto, _reiniciarQuestionario),
-    ));
+          appBar: AppBar(
+            title: Text('Montadoras Quiz'),
+          ),
+          body: temPerguntaSelecionada
+              ? Questionario(
+                  perguntas: _perguntas,
+                  perguntaSelecionada: _perguntaSelecionada,
+                  responder: _responder)
+              : Resultado(_porcentagemAcerto, _reiniciarQuestionario),
+        ));
   }
 }
 
