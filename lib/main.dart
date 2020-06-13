@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:montadoras_game/questionario.dart';
-import 'package:montadoras_game/resultado.dart';
+import 'package:montadoras_game/widgets/questionario.dart';
+import 'package:montadoras_game/widgets/resultado.dart';
 
 main() => runApp(PerguntaApp());
 

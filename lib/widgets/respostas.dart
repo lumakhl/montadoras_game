@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:montadoras_game/resposta.dart';
+import 'package:montadoras_game/widgets/resposta.dart';
 
 class Respostas extends StatelessWidget {
   final List<Map<String, Object>> respostas;
