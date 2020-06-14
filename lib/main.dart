@@ -81,7 +81,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
         ),
         home: Scaffold(
           appBar: AppBar(
-            title: Text(_),
+            title: Text('Montadoras Quiz'),
           ),
           body: temPerguntaSelecionada
               ? Questionario(
