@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Resposta extends StatelessWidget {
+class RespostaItem extends StatelessWidget {
   
   final String texto;
   final Function quandoSelecionado;
 
-  Resposta(this.texto, this.quandoSelecionado);
+  RespostaItem(this.texto, this.quandoSelecionado);
 
   @override
   Widget build(BuildContext context) {

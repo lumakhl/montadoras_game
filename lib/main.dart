@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:montadoras_game/widgets/questionario.dart';
-import 'package:montadoras_game/widgets/resultado.dart';
+import 'package:montadoras_game/models/pergunta_model.dart';
+import 'package:montadoras_game/providers/perguntas.dart';
+import 'package:montadoras_game/views/questionario.dart';
+import 'package:montadoras_game/views/resultado.dart';
 
 main() => runApp(PerguntaApp());
 
@@ -8,13 +10,21 @@ class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
   var _totalAcertos = 0;
 
+  Future<List<Pergunta>> futurePerguntas;
+
+  @override
+  void initState() {
+    super.initState();
+
+    futurePerguntas = PerguntasService().getQuestoes();
+  }
+
   void _responder(int acerto) {
     setState(() {
       _perguntaSelecionada++;
       _totalAcertos += acerto;
     });
   }
-
   final _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
@@ -71,7 +81,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
         ),
         home: Scaffold(
           appBar: AppBar(
-            title: Text('Montadoras Quiz'),
+            title: Text(_),
           ),
           body: temPerguntaSelecionada
               ? Questionario(
