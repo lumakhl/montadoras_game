@@ -8,9 +8,9 @@ import 'package:montadoras_game/widgets/respostas.dart';
 class Questionario extends StatefulWidget {
   final List<Pergunta> perguntas;
 
-
-  Questionario(
-      {@required this.perguntas,});
+  Questionario({
+    @required this.perguntas,
+  });
 
   @override
   _QuestionarioState createState() => _QuestionarioState();
@@ -50,22 +50,26 @@ class _QuestionarioState extends State<Questionario> {
         : null;
 
     return Container(
-      margin: const EdgeInsets.all(4),
-      child: Column(
-        children: temPerguntaSelecionada
-            ? <Widget>[
-                Questao(widget.perguntas[_perguntaSelecionada].descricao),
-                Expanded(
-                    child: SizedBox(
-                  child: Respostas(respostas, _responder),
-                )),
-                Text('${_perguntaSelecionada + 1}/${widget.perguntas.length}',
-                    style: TextStyle(fontSize: 20))
-              ]
-            : <Widget>[
-                Center(child: Resultado(_porcentagemAcerto, _reiniciarQuestionario)),
-              ],
-      ),
-    );
+        margin: const EdgeInsets.all(4),
+        child: Column(
+          children: temPerguntaSelecionada
+              ? <Widget>[
+                  Questao(widget.perguntas[_perguntaSelecionada].descricao),
+                  Expanded(
+                      child: SizedBox(
+                    child: Respostas(respostas, _responder),
+                  )),
+                  Text('${_perguntaSelecionada + 1}/${widget.perguntas.length}',
+                      style: TextStyle(fontSize: 20))
+                ]
+              : <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(top: 250),
+                    child: Center(
+                        child: Resultado(
+                            _porcentagemAcerto, _reiniciarQuestionario)),
+                  ),
+                ],
+        ));
   }
 }
