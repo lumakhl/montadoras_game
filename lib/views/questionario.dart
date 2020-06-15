@@ -7,9 +7,10 @@ import 'package:montadoras_game/widgets/respostas.dart';
 
 class Questionario extends StatefulWidget {
   final List<Pergunta> perguntas;
+  final void Function() reiniciarQuestionario;
 
   Questionario({
-    @required this.perguntas,
+    @required this.perguntas, @required this.reiniciarQuestionario
   });
 
   @override
@@ -32,6 +33,8 @@ class _QuestionarioState extends State<Questionario> {
       _perguntaSelecionada = 0;
       _totalAcertos = 0;
     });
+
+    widget.reiniciarQuestionario();
   }
 
   String get _porcentagemAcerto {

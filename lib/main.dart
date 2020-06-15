@@ -10,12 +10,17 @@ class _PerguntaAppState extends State<PerguntaApp> {
   PerguntasService service = PerguntasService();
   Future<List<Pergunta>> futurePerguntas;
 
+  @override
+  void initState() {
+    super.initState();
+    futurePerguntas = service.getQuestoes();
+  }
+
   void _reiniciarQuestionario() {
     setState(() {
       futurePerguntas = service.getQuestoes();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +35,17 @@ class _PerguntaAppState extends State<PerguntaApp> {
             title: Text('Montadoras Quiz'),
           ),
           body: FutureBuilder(
-            future: service.getQuestoes(),
-            builder: (context, AsyncSnapshot<List<Pergunta>> snapshot) {
-              if(snapshot.hasData && snapshot.data.length > 0) {
-                return Questionario(perguntas: snapshot.data);
-              } else {
-                return Center(child: Text('Carregando...'));
-              }
-            }),
+              future: futurePerguntas,
+              builder: (context, AsyncSnapshot<List<Pergunta>> snapshot) {
+                if (snapshot.hasData && snapshot.data.length > 0) {
+                  return Questionario(
+                    perguntas: snapshot.data,
+                    reiniciarQuestionario: _reiniciarQuestionario,
+                  );
+                } else {
+                  return Center(child: Text('Carregando... Caso demore tente reiniciar o app!'));
+                }
+              }),
         ));
   }
 }
