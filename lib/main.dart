@@ -82,14 +82,9 @@ class _PerguntaAppState extends State<PerguntaApp> {
             future: service.getQuestoes(),
             builder: (context, AsyncSnapshot<List<Pergunta>> snapshot) {
               if(snapshot.hasData) {
-                return temPerguntaSelecionada
-              ? Questionario(
-                  perguntas: snapshot.data,
-                  perguntaSelecionada: _perguntaSelecionada,
-                  responder: _responder)
-              : Resultado(_porcentagemAcerto, _reiniciarQuestionario);
+                return Questionario(perguntas: snapshot.data);
               } else {
-                return Text('não deu');
+                return Center(child: Text('Carregando...'));
               }
             }),
         ));
