@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:montadoras_game/models/pergunta_model.dart';
-import 'package:montadoras_game/providers/perguntas.dart';
+import 'package:montadoras_game/providers/perguntas_service.dart';
 import 'package:montadoras_game/views/questionario.dart';
 import 'package:montadoras_game/views/resultado.dart';
 
@@ -10,14 +10,9 @@ class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
   var _totalAcertos = 0;
 
+  PerguntasService service = PerguntasService();
   Future<List<Pergunta>> futurePerguntas;
 
-  @override
-  void initState() {
-    super.initState();
-
-    futurePerguntas = PerguntasService().getQuestoes();
-  }
 
   void _responder(int acerto) {
     setState(() {
@@ -83,12 +78,20 @@ class _PerguntaAppState extends State<PerguntaApp> {
           appBar: AppBar(
             title: Text('Montadoras Quiz'),
           ),
-          body: temPerguntaSelecionada
+          body: FutureBuilder(
+            future: service.getQuestoes(),
+            builder: (context, AsyncSnapshot<List<Pergunta>> snapshot) {
+              if(snapshot.hasData) {
+                return temPerguntaSelecionada
               ? Questionario(
-                  perguntas: _perguntas,
+                  perguntas: snapshot.data,
                   perguntaSelecionada: _perguntaSelecionada,
                   responder: _responder)
-              : Resultado(_porcentagemAcerto, _reiniciarQuestionario),
+              : Resultado(_porcentagemAcerto, _reiniciarQuestionario);
+              } else {
+                return Text('não deu');
+              }
+            }),
         ));
   }
 }

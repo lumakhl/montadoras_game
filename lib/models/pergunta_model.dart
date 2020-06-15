@@ -13,11 +13,12 @@ class Pergunta {
   });
 
   factory Pergunta.fromJson(Map<String, dynamic> json) {
-    List<Resposta> respostas =
-        json['respostas'].map((resposta) => Resposta.fromJson(resposta));
+    List<Resposta> respostas = json['respostas'].map<Resposta>(
+      (resposta) => Resposta.fromJson(resposta),
+    ).toList();
     return Pergunta(
-        id: json['id'] as int,
-        descricao: json['descricao'] as String,
-        respostas: respostas);
+      id: json['id'] as int,
+      descricao: json['descricao'] as String,
+      respostas: respostas);
   }
 }
