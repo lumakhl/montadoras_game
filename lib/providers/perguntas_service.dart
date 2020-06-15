@@ -25,6 +25,7 @@ class PerguntasService {
             (dynamic item) => Pergunta.fromJson(item),
           )
           .toList();
+          perguntas.shuffle();
           return perguntas;
     } else {
       throw HttpException("Não foi possível recuperar os dados, tente novamente");
