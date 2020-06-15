@@ -11,8 +11,9 @@ class Resultado extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        Center(child: Text('Seu percentual de acerto foi:')),
         Center(
-          child: Text(resultado, style: TextStyle(fontSize: 28)),
+          child: Text('$resultado%', style: TextStyle(fontSize: 28)),
         ),
         FlatButton(
           onPressed: reiniciarQuestionario,
